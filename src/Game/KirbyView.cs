@@ -29,7 +29,8 @@ public partial class KirbyView : Sprite2D
     /// <summary>Shows the frame that matches the motor's pose, facing and position.</summary>
     public void Display(KirbyMotor motor)
     {
-        var frame = _animations[motor.Pose].FrameAt(motor.PoseTicks) & ~1;
+        var animation = _animations[motor.Pose];
+        var frame = animation.FrameAt(motor.PoseTicks) & ~1;
         if (motor.Facing < 0)
         {
             frame |= 1;
@@ -41,6 +42,6 @@ public partial class KirbyView : Sprite2D
             _cache[frame] = texture;
         }
         Texture = texture;
-        Position = (motor.Position - KirbySprites.CanvasOrigin).Floor();
+        Position = (motor.Position + new Vector2(0, animation.OffsetY) - KirbySprites.CanvasOrigin).Floor();
     }
 }

@@ -8,7 +8,10 @@ namespace KirbySuperStar.Rom;
 public readonly record struct AnimationStep(int Frame, int Duration);
 
 /// <summary>A sequence of frames that either loops or holds its last frame.</summary>
-public sealed record KirbyAnimation(IReadOnlyList<AnimationStep> Steps, bool Loops)
+/// <param name="Steps">Frames in order.</param>
+/// <param name="Loops">True to repeat; false to hold the last frame.</param>
+/// <param name="OffsetY">Pixels to draw the frames lower than Kirby's origin.</param>
+public sealed record KirbyAnimation(IReadOnlyList<AnimationStep> Steps, bool Loops, int OffsetY = 0)
 {
     /// <summary>Total ticks of one pass, or zero if a step holds forever.</summary>
     public int Length
@@ -48,7 +51,7 @@ public sealed record KirbyAnimation(IReadOnlyList<AnimationStep> Steps, bool Loo
     }
 
     /// <summary>Creates an animation that shows one frame forever.</summary>
-    public static KirbyAnimation Still(int frame) => new(new[] { new AnimationStep(frame, 0) }, false);
+    public static KirbyAnimation Still(int frame, int offsetY = 0) => new(new[] { new AnimationStep(frame, 0) }, false, offsetY);
 }
 
 /// <summary>Poses the movement prototype can show.</summary>
@@ -80,6 +83,7 @@ public static class KirbyAnimations
     private const int FloatStartList = 0xC40994;
     private const int FloatList = 0xC4099C;
     private const int SetFrameAndWait = 0x47;
+    private const int SquashedOffset = 10;
 
     private static readonly Dictionary<int, int> BrokenFrameSubstitutes = new()
     {
@@ -92,14 +96,14 @@ public static class KirbyAnimations
         return new Dictionary<KirbyPose, KirbyAnimation>
         {
             [KirbyPose.Idle] = new(ReadObjectScript(rom, IdleScript), true),
-            [KirbyPose.Crouch] = KirbyAnimation.Still(0x4E),
+            [KirbyPose.Crouch] = KirbyAnimation.Still(0x4E, SquashedOffset),
             [KirbyPose.Walk] = new(ReadFrameList(rom, WalkList), true),
             [KirbyPose.Run] = new(ReadFrameList(rom, RunList), true),
             [KirbyPose.Brake] = KirbyAnimation.Still(0x6C),
             [KirbyPose.JumpRise] = new(ReadObjectScript(rom, JumpScript), false),
             [KirbyPose.Fall] = KirbyAnimation.Still(0x1E),
-            [KirbyPose.Land] = KirbyAnimation.Still(0x4E),
-            [KirbyPose.Slide] = KirbyAnimation.Still(0x52),
+            [KirbyPose.Land] = KirbyAnimation.Still(0x4E, SquashedOffset),
+            [KirbyPose.Slide] = KirbyAnimation.Still(0x52, SquashedOffset),
             [KirbyPose.FloatStart] = new(ReadFrameList(rom, FloatStartList), false),
             [KirbyPose.Float] = new(ReadFrameList(rom, FloatList), false),
             [KirbyPose.Exhale] = KirbyAnimation.Still(0xD2),
