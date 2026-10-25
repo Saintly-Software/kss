@@ -206,7 +206,7 @@ public sealed class KirbyMotor
         }
         else if (State == KirbyState.Walk)
         {
-            _holdTicks++;
+            _holdTicks = direction == Facing ? _holdTicks + 1 : 0;
             if (wantsRun || (p.RunHoldTicks > 0 && _holdTicks >= p.RunHoldTicks))
             {
                 Enter(KirbyState.Run);
