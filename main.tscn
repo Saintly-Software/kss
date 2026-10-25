@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://duet8tqyk64ho"]
+[gd_scene load_steps=4 format=3 uid="uid://duet8tqyk64ho"]
 
-[ext_resource type="Script" path="res://src/Viewer/SpriteViewer.cs" id="1"]
+[ext_resource type="Script" path="res://src/Game/Playground.cs" id="1"]
+[ext_resource type="Resource" path="res://profiles/classic.tres" id="2"]
+[ext_resource type="Resource" path="res://profiles/modern.tres" id="3"]
 
-[node name="SpriteViewer" type="Node2D"]
+[node name="Playground" type="Node2D"]
 script = ExtResource("1")
+Classic = ExtResource("2")
+Modern = ExtResource("3")
