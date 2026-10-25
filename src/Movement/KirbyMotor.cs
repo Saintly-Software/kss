@@ -90,11 +90,12 @@ public sealed class KirbyMotor
     /// <summary>Collision box in pixels.</summary>
     public Rect2 Hitbox => BoxAt(Position);
 
-    /// <summary>Moves Kirby to <paramref name="position"/> and stops him.</summary>
+    /// <summary>Moves Kirby to <paramref name="position"/>, stops him and turns him to face right.</summary>
     public void Teleport(Vector2 position)
     {
         Position = position;
         Velocity = Vector2.Zero;
+        Facing = 1;
         Grounded = Probe(0, 1);
         Enter(Grounded ? KirbyState.Idle : KirbyState.Fall);
     }
