@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="MovementProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/Movement/MovementProfile.cs" id="1"]
+
+[resource]
+script = ExtResource("1")
+DisplayName = "Classic"
+WalkSpeed = 1.3125
+RunSpeed = 2.0
+AirSpeed = 1.4375
+JumpVelocity = -13.0
+JumpBoostTicks = 4
+JumpBoostTarget = 3.5
+JumpBoostStep = 2.5234375
+Gravity = 0.171875
+MaxFallSpeed = 3.5
+FloatGravity = 0.09375
+FloatMaxFallSpeed = 1.375
+FlapVelocity = -3.0
+FlapRepeatTicks = 16
+FloatSpeed = 1.0625
+SlideSpeed = 2.75
+SlideHoldTicks = 16
+SlideDecel = 0.125
+SlideDecelTicks = 16
+HitboxSize = Vector2(16, 20)
+HitboxBottom = 12.0
+WalkAccel = 0.3125
+RunAccel = 0.1875
+DoubleTapTicks = 20
+JumpReleaseVelocity = -1.0
+ApexSpeedThreshold = 1.0
+ExhaleTicks = 18
+AlwaysRun = false
+GroundFriction = 0.1875
+BrakeOnRelease = true
+TurnDecel = 0.0
+RunTurnSkids = true
+SkidPoseMinSpeed = 1.9
+RunHoldTicks = 0
+RunButton = false
+AirAccel = 0.1875
+AirTurnDecel = 0.1875
+AirFriction = 0.03125
+RunJumpAccel = 0.09375
+RunJumpTurnDecel = 0.09375
+RunJumpFriction = 0.015625
+RunJumpKeepsSpeed = false
+ApexGravityScale = 1.0
+FloatAccel = 0.09375
+FloatTurnDecel = 0.09375
+FloatFriction = 0.015625
+FlapCutImmediate = false
