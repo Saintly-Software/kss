@@ -1,0 +1,66 @@
+# Runs through every movement state. Use with: Godot --path . -- --script=test/input/tour.txt --trace=OUT.csv --shots=DIR
+
+mark walk-and-release
+teleport 650 388
+hold R 40
+shot walk.png
+wait 20
+
+mark double-tap-run-and-reverse
+teleport 650 388
+hold R 3
+wait 3
+hold R 40
+shot run.png
+hold L 4
+shot reverse.png
+hold L 30
+wait 20
+
+mark full-jump
+teleport 650 388
+hold J 14
+shot jump.png
+hold J 56
+wait 20
+
+mark tap-jump
+teleport 650 388
+hold J 2
+wait 60
+
+mark running-jump
+teleport 650 388
+hold R 3
+wait 3
+hold R 20
+hold R J 30
+hold L J 30
+wait 40
+
+mark float
+teleport 680 388
+hold J 2
+wait 6
+hold J 2
+wait 10
+shot float.png
+hold J 64
+wait 40
+hold A 2
+shot exhale.png
+wait 80
+
+mark slide
+teleport 650 388
+hold D J 2
+hold D 6
+shot slide.png
+hold D 44
+wait 10
+
+mark crouch
+teleport 650 388
+hold D 10
+shot crouch.png
+wait 10
