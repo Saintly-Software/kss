@@ -1,0 +1,15 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# .NET build output
+bin/
+obj/
+
+# Nintendo data: never commit
+/rom/*
+!/rom/README.md
+!/rom/.gdignore
+*.sfc
+*.smc
+/extracted/
