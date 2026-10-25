@@ -36,6 +36,10 @@ public sealed class KirbySprites
     private const int NormalKirbyType = 2;
     private const int SlotVramBase = 0x6000;
     private const int SlotTileMask = 0x1F;
+    private const int SharedLayoutLimit = 0x22;
+    private const int SharedLayoutFrame = 0x12;
+    private const int PuffedFirstFrame = 0xCA;
+    private const int PuffedLastFrame = 0xD3;
 
     private readonly RomImage _rom;
 
@@ -76,8 +80,36 @@ public sealed class KirbySprites
 
     /// <summary>
     /// Returns the sprites of a frame, front-most first.
+    /// Frames below <c>$22</c> use the shared 24x24 layout of frame <c>$12</c>, and the puffed frames
+    /// <c>$CA</c>-<c>$D3</c> use a 2x2 grid of 16x16 sprites. Both are empirical substitutes for a lookup
+    /// that is not yet understood; see <c>docs/rom-notes.md</c>.
     /// </summary>
     public List<SpritePiece> GetLayout(int frame)
+    {
+        if (frame < SharedLayoutLimit)
+        {
+            return ReadLayout(SharedLayoutFrame | (frame & 1));
+        }
+        if (frame >= PuffedFirstFrame && frame <= PuffedLastFrame)
+        {
+            return PuffedLayout((frame & 1) != 0);
+        }
+        return ReadLayout(frame);
+    }
+
+    private static List<SpritePiece> PuffedLayout(bool facingLeft)
+    {
+        var pieces = new List<SpritePiece>();
+        for (var i = 0; i < 4; i++)
+        {
+            var column = i % 2;
+            var x = facingLeft ? -column * 16 : (column - 1) * 16;
+            pieces.Add(new SpritePiece(true, x, i / 2 * 16 - 20, i * 2, facingLeft, false));
+        }
+        return pieces;
+    }
+
+    private List<SpritePiece> ReadLayout(int frame)
     {
         var tableBank = _rom.U8(RomImage.ToFileOffset(LayoutBankTable) + NormalKirbyType);
         var tableAddress = (tableBank << 16) | _rom.U16(RomImage.ToFileOffset(LayoutPointerTable) + NormalKirbyType * 2);
