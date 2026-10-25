@@ -1,0 +1,17 @@
+# Switches presets and always-run through the input actions, as a player would.
+
+teleport 650 388
+hold R 20
+shot preset-classic.png
+press switch_preset
+hold R 20
+shot preset-modern.png
+wait 20
+press toggle_always_run
+hold R 10
+shot always-run.png
+press toggle_always_run
+wait 20
+press switch_preset
+wait 2
+shot preset-back.png
