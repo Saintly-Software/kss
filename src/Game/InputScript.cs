@@ -6,7 +6,7 @@ using KirbySuperStar.Movement;
 namespace KirbySuperStar.Game;
 
 /// <summary>One line of an input script.</summary>
-/// <param name="Verb">Command name: hold, wait, shot, preset, teleport, mark or quit.</param>
+/// <param name="Verb">Command name: hold, wait, press, shot, preset, teleport, mark or quit.</param>
 /// <param name="Input">Buttons held for hold and wait.</param>
 /// <param name="Ticks">Ticks to hold the buttons for hold and wait.</param>
 /// <param name="Args">Remaining words for the other commands.</param>
@@ -18,6 +18,7 @@ public sealed record ScriptCommand(string Verb, KirbyInput Input, int Ticks, str
 /// <list type="bullet">
 /// <item><c>hold BUTTONS TICKS</c> holds buttons, e.g. <c>hold R J 10</c>. Buttons: L R U D J (jump) A (attack) B (run).</item>
 /// <item><c>wait TICKS</c> holds nothing.</item>
+/// <item><c>press ACTION</c> presses an input action, such as <c>switch_preset</c>, for the next tick.</item>
 /// <item><c>shot FILE</c> saves a screenshot.</item>
 /// <item><c>preset classic|modern</c> switches presets.</item>
 /// <item><c>teleport X Y</c> moves Kirby, in pixels.</item>
@@ -48,6 +49,7 @@ public static class InputScript
                 case "wait":
                     commands.Add(new ScriptCommand(verb, default, ParseTicks(words[1]), Array.Empty<string>()));
                     break;
+                case "press":
                 case "shot":
                 case "preset":
                 case "teleport":

@@ -41,6 +41,7 @@ public partial class Playground : Node2D
     private int _scriptTicksLeft;
     private string _shotDirectory = ".";
     private bool _paused;
+    private string? _pressedAction;
     private StreamWriter? _trace;
     private long _tick;
 
@@ -112,6 +113,11 @@ public partial class Playground : Node2D
         KirbyInput input;
         if (_script is not null)
         {
+            if (_pressedAction is not null)
+            {
+                Input.ActionRelease(_pressedAction);
+                _pressedAction = null;
+            }
             if (!NextScriptInput(out input))
             {
                 return;
@@ -119,9 +125,9 @@ public partial class Playground : Node2D
         }
         else
         {
-            HandleMetaInput();
             input = ReadController();
         }
+        HandleMetaInput();
 
         _motor.Step(input);
         _trace?.WriteLine(string.Join(',',
@@ -200,6 +206,10 @@ public partial class Playground : Node2D
                 case "hold":
                 case "wait":
                     _scriptTicksLeft = command.Ticks;
+                    break;
+                case "press":
+                    _pressedAction = command.Args[0];
+                    Input.ActionPress(_pressedAction);
                     break;
                 case "preset":
                     _motor!.Profile = command.Args[0].Equals("modern", StringComparison.OrdinalIgnoreCase) ? Modern : Classic;
